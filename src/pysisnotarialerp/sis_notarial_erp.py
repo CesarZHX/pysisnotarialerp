@@ -42,7 +42,7 @@ class SisNotarialERP:
         Returns:
             WindowControl: The SIS Notarial ERP application window.
         """
-        if not LoginForm.exists():
+        if not (MainForm.exists() or LoginForm.exists()):
             self._popen = Popen(self._executable_file)
         login_form = LoginForm()
         return login_form.login(username, password)
