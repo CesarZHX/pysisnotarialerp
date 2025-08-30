@@ -1,0 +1,1 @@
+"""Kardex form window controls."""
