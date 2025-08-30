@@ -1,6 +1,6 @@
 """Login exceptions."""
 
-from ...sis_notarial_erp.exceptions import SisNotarialErpException
+from ...exceptions import SisNotarialErpException
 
 
 class LoginException(SisNotarialErpException):

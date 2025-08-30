@@ -1,6 +1,6 @@
 """Kardex controls."""
 
-from ...sis_notarial_erp.controls import _PANE
+from ..main.controls import _PANE
 
 KARDEX_WINDOW = _PANE.WindowControl(searchDepth=1, AutomationId="FrmKardex")
 _TOOL_STRIP = KARDEX_WINDOW.ToolBarControl(searchDepth=1, AutomationId="ToolStrip1")
