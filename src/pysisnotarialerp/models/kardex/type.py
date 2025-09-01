@@ -1,9 +1,9 @@
 from pydantic import ConfigDict, RootModel, field_validator
 
-ORDERED_KARDEX_TYPES: tuple[str, ...]
-ORDERED_KARDEX_TYPES = ("KA", "EX", "PT", "GM", "TE", "TV", "CC", "SK", "DP")
-KNOWN_KARDEX_TYPES: frozenset[str] = frozenset(ORDERED_KARDEX_TYPES)
-assert len(ORDERED_KARDEX_TYPES) == len(KNOWN_KARDEX_TYPES)
+_STR_KARDEX_TYPES: tuple[str, ...]
+_STR_KARDEX_TYPES = ("KA", "EX", "PT", "GM", "TE", "TV", "CC", "SK", "DP")
+_KNOWN_KARDEX_TYPES: frozenset[str] = frozenset(_STR_KARDEX_TYPES)
+assert len(_STR_KARDEX_TYPES) == len(_KNOWN_KARDEX_TYPES)
 
 
 class KardexType(RootModel[str]):
@@ -21,5 +21,9 @@ class KardexType(RootModel[str]):
         if not stripped_value.isalpha():
             raise ValueError("Kardex must contain only alphabetic characters")
         upper_value: str = stripped_value.upper()
-        assert upper_value in KNOWN_KARDEX_TYPES
+        assert upper_value in _KNOWN_KARDEX_TYPES
         return upper_value
+
+
+KARDEX_TYPES: frozenset[KardexType]
+KARDEX_TYPES = frozenset(KardexType(skt) for skt in _STR_KARDEX_TYPES)

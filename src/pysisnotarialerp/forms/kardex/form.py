@@ -36,6 +36,8 @@ class KardexForm(BaseForm):
         if cls._has_type_list():
             cls._invoke_type_button()
         assert TYPE_COMBO_BOX.Select(value.root)
+        new_kardex_type = cls.get_kardex_type()
+        assert new_kardex_type == value
         return None
 
     @staticmethod
