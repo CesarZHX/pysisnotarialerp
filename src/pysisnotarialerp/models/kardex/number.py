@@ -1,9 +1,11 @@
-from typing import overload
+from typing import Annotated, overload
 
-from pydantic import ConfigDict, PositiveInt, RootModel
+from pydantic import ConfigDict, Field, PositiveInt, RootModel
+
+PositiveUInt32 = Annotated[int, Field(ge=1, le=2_147_483_647)]
 
 
-class KardexNumber(RootModel[PositiveInt]):
+class KardexNumber(RootModel[PositiveUInt32]):
     """Kardex number model."""
 
     model_config = ConfigDict(frozen=True)
