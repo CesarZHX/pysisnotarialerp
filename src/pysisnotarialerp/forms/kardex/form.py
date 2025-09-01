@@ -56,7 +56,7 @@ class KardexForm(BaseForm):
         current_kardex_number: KardexNumber | None = cls.get_kardex_number()
         if current_kardex_number and value == current_kardex_number:
             return None
-        str_kardex_number: str = str(value)
+        str_kardex_number: str = str(value.root)
         number_edit = NUMBER_EDIT.GetValuePattern()
         assert number_edit.SetValue(str_kardex_number)
         assert (new_kardex_number := cls.get_kardex_number())
