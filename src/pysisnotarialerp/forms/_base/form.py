@@ -9,8 +9,8 @@ class BaseForm:
     _window: WindowControl
 
     def __init__(self) -> None:
-        self.wait()
-        return None
+        """Initializes a new instance of the Form class."""
+        return self.wait()
 
     @classmethod
     def wait(cls) -> None:

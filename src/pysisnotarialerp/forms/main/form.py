@@ -15,6 +15,6 @@ class MainForm(BaseForm):
         """Returns the kardex form."""
         if KardexForm.exists():
             return KardexForm()
-        KARDEX_BUTTON.SetFocus()
-        KARDEX_BUTTON.Click()
+        kardex_button = KARDEX_BUTTON.GetInvokePattern()
+        kardex_button.Invoke()
         return KardexForm()

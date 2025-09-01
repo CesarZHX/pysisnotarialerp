@@ -44,5 +44,5 @@ class SisNotarialERP:
         """
         if not (MainForm.exists() or LoginForm.exists()):
             self._popen = Popen(self._executable_file)
-        login_form = LoginForm()
+        login_form: LoginForm = LoginForm()
         return login_form.login(username, password)

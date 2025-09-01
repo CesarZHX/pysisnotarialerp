@@ -4,14 +4,8 @@ from pydantic import SecretStr
 
 from .._base.form import BaseForm
 from ..main.form import MainForm
-from .controls import (
-    LOGIN_WINDOW,
-    PASSWORD_EDIT,
-    SUBMIT_BUTTON,
-    USERNAME_EDIT,
-    WRONG_PASSWORD_TEXT,
-)
-from .exceptions import LoginException, WrongPasswordError
+from .controls import LOGIN_WINDOW, PASSWORD_EDIT, SUBMIT_BUTTON, USERNAME_EDIT
+from .exceptions import raise_login_error
 
 
 class LoginForm(BaseForm):
@@ -29,18 +23,18 @@ class LoginForm(BaseForm):
 
         Raises:
             LoginException: If login fails.
-            WrongPasswordError: If the password is incorrect.
 
         Returns:
             WindowControl: The SIS Notarial ERP application window.
         """
         if MainForm.exists():
             return MainForm()
-        USERNAME_EDIT.GetValuePattern().SetValue(username)
-        PASSWORD_EDIT.GetValuePattern().SetValue(password.get_secret_value())
-        SUBMIT_BUTTON.Click()
-        if not cls.exists():
-            return MainForm()
-        if WRONG_PASSWORD_TEXT.Exists(maxSearchSeconds=0):
-            raise WrongPasswordError
-        raise LoginException
+        username_edit = USERNAME_EDIT.GetValuePattern()
+        username_edit.SetValue(username)
+        password_edit = PASSWORD_EDIT.GetValuePattern()
+        password_edit.SetValue(password.get_secret_value())
+        submit_button = SUBMIT_BUTTON.GetInvokePattern()
+        submit_button.Invoke()
+        if cls.exists():
+            raise_login_error()
+        return MainForm()
