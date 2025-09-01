@@ -1,5 +1,7 @@
 """Kardex form module."""
 
+from time import sleep
+
 from uiautomation import ListItemControl
 
 from ...models.kardex.number import KardexNumber
@@ -38,7 +40,7 @@ class KardexForm(BaseForm):
         assert TYPE_COMBO_BOX.Select(value.root)
         new_kardex_type = cls.get_kardex_type()
         assert new_kardex_type == value
-        return None
+        return cls._wait_for_update()
 
     @staticmethod
     def get_kardex_number() -> KardexNumber | None:
@@ -50,7 +52,7 @@ class KardexForm(BaseForm):
 
     @classmethod
     def set_kardex_number(cls, value: KardexNumber) -> None:
-        """Sets the kardex."""
+        """Sets the kardex number."""
         if not isinstance(value, KardexNumber):
             raise ValueError("Kardex number must be an instance of KardexNumber.")
         current_kardex_number: KardexNumber | None = cls.get_kardex_number()
@@ -61,7 +63,7 @@ class KardexForm(BaseForm):
         assert number_edit.SetValue(str_kardex_number)
         assert (new_kardex_number := cls.get_kardex_number())
         assert new_kardex_number == value
-        return None
+        return cls._wait_for_update()
 
     @classmethod
     def get_kardex_types(cls) -> frozenset[KardexType]:
@@ -92,4 +94,20 @@ class KardexForm(BaseForm):
     def _invoke_type_button() -> None:
         """Invokes the type button."""
         type_button = TYPE_BUTTON.GetInvokePattern()
-        type_button.Invoke()
+        assert type_button.Invoke()
+        return None
+
+    @staticmethod
+    def _wait_for_update() -> None:
+        """
+        Temporarily waits for the kardex data to update.
+
+        This method introduces a 2-second delay to reduce the risk of subsequent
+        actions failing due to incomplete UI updates. On average, the update takes
+        about 1 second, but waits longer to ensure the UI is fully updated.
+
+        TODO:
+            Replace this fixed delay with an event-based or state-check mechanism
+            to ensure reliability.
+        """
+        return sleep(2)
