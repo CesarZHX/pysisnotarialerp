@@ -63,7 +63,9 @@ class KardexForm(BaseForm):
         assert number_edit.SetValue(str_kardex_number)
         assert (new_kardex_number := cls.get_kardex_number())
         assert new_kardex_number == value
+        NUMBER_EDIT.SendKeys("{ENTER}")
         return cls._wait_for_update()
+        # TODO: Check if kardex number not found error.
 
     @classmethod
     def get_kardex_types(cls) -> frozenset[KardexType]:
