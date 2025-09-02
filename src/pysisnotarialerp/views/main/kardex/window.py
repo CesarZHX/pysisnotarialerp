@@ -1,17 +1,26 @@
-"""Kardex form module."""
+"""Kardex window module."""
 
 from time import sleep
 
 from uiautomation import ListItemControl
 
-from ...models.kardex.number import KardexNumber
-from ...models.kardex.type import KardexType
-from .._base.form import BaseForm
-from .controls import KARDEX_WINDOW, NUMBER_EDIT, TYPE_BUTTON, TYPE_COMBO_BOX, TYPE_LIST
+from ....base.window import BaseWindow
+from ....models.kardex.number import KardexNumber
+from ....models.kardex.type import KardexType
+from .controls import (
+    ACCEPT_BUTTON,
+    KARDEX_NOT_EXIST_TEXT,
+    KARDEX_WINDOW,
+    NUMBER_EDIT,
+    TYPE_BUTTON,
+    TYPE_COMBO_BOX,
+    TYPE_LIST,
+)
+from .exceptions import KardexNotExistsError
 
 
-class KardexForm(BaseForm):
-    """Kardex form class."""
+class KardexWindow(BaseWindow):
+    """Kardex window class."""
 
     _window = KARDEX_WINDOW
 
@@ -60,12 +69,18 @@ class KardexForm(BaseForm):
             return None
         str_kardex_number: str = str(value.root)
         number_edit = NUMBER_EDIT.GetValuePattern()
+
         assert number_edit.SetValue(str_kardex_number)
         assert (new_kardex_number := cls.get_kardex_number())
         assert new_kardex_number == value
         NUMBER_EDIT.SendKeys("{ENTER}")
-        return cls._wait_for_update()
-        # TODO: Check if kardex number not found error.
+        cls._wait_for_update()
+        # TODO: Before, compare the the kardex with the lastest kardex of its type
+        # to prevent KARDEX_NOT_EXIST_TEXT from even appearing.
+        if KARDEX_NOT_EXIST_TEXT.Exists(maxSearchSeconds=0):
+            ACCEPT_BUTTON.GetInvokePattern().Invoke()
+            raise KardexNotExistsError
+        return None
 
     @classmethod
     def get_kardex_types(cls) -> frozenset[KardexType]:

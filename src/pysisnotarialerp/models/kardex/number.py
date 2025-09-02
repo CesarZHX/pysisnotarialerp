@@ -1,3 +1,5 @@
+"""Kardex number model module."""
+
 from typing import Annotated, overload
 
 from pydantic import ConfigDict, Field, PositiveInt, RootModel

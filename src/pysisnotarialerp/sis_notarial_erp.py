@@ -5,8 +5,8 @@ from subprocess import Popen
 
 from pydantic import SecretStr
 
-from .forms.login.form import LoginForm
-from .forms.main.form import MainForm
+from .views.login.window import LoginWindow
+from .views.main.window import MainWindow
 
 
 class SisNotarialERP:
@@ -28,7 +28,7 @@ class SisNotarialERP:
         self._popen: Popen | None = None
         return None
 
-    def login(self, username: str, password: SecretStr) -> MainForm:
+    def login(self, username: str, password: SecretStr) -> MainWindow:
         """Logs in to the SIS Notarial ERP application.
 
         Args:
@@ -42,7 +42,7 @@ class SisNotarialERP:
         Returns:
             WindowControl: The SIS Notarial ERP application window.
         """
-        if not (MainForm.exists() or LoginForm.exists()):
+        if not (MainWindow.exists() or LoginWindow.exists()):
             self._popen = Popen(self._executable_file)
-        login_form: LoginForm = LoginForm()
+        login_form: LoginWindow = LoginWindow()
         return login_form.login(username, password)

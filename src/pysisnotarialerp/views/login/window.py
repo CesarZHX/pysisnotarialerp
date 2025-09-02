@@ -1,20 +1,20 @@
-"""Login form module."""
+"""Login window module."""
 
 from pydantic import SecretStr
 
-from .._base.form import BaseForm
-from ..main.form import MainForm
+from ...base.window import BaseWindow
+from ..main.window import MainWindow
 from .controls import LOGIN_WINDOW, PASSWORD_EDIT, SUBMIT_BUTTON, USERNAME_EDIT
 from .exceptions import raise_login_error
 
 
-class LoginForm(BaseForm):
-    """Login form class."""
+class LoginWindow(BaseWindow):
+    """Login window class."""
 
     _window = LOGIN_WINDOW
 
     @classmethod
-    def login(cls, username: str, password: SecretStr) -> MainForm:
+    def login(cls, username: str, password: SecretStr) -> MainWindow:
         """Logs in to the SIS Notarial ERP application.
 
         Args:
@@ -27,8 +27,8 @@ class LoginForm(BaseForm):
         Returns:
             WindowControl: The SIS Notarial ERP application window.
         """
-        if MainForm.exists():
-            return MainForm()
+        if MainWindow.exists():
+            return MainWindow()
         username_edit = USERNAME_EDIT.GetValuePattern()
         username_edit.SetValue(username)
         password_edit = PASSWORD_EDIT.GetValuePattern()
@@ -37,4 +37,4 @@ class LoginForm(BaseForm):
         submit_button.Invoke()
         if cls.exists():
             raise_login_error()
-        return MainForm()
+        return MainWindow()

@@ -1,3 +1,5 @@
+"""Kardex type model module."""
+
 from pydantic import ConfigDict, RootModel, field_validator
 
 _STR_KARDEX_TYPES: tuple[str, ...]
