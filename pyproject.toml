@@ -1,6 +1,6 @@
 [project]
 name = "pysisnotarialerp"
-version = "0.2.0"
+version = "0.3.0"
 description = "A Python wrapper for the Sis Notarial ERP desktop application."
 authors = [
     {name = "CesarZHX", email = "112836949+CesarZHX@users.noreply.github.com"},

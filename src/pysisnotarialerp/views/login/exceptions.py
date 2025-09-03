@@ -16,8 +16,10 @@ def raise_login_error() -> None:
     """Raises the corresponding login error."""
     if WRONG_PASSWORD_TEXT.Exists(maxSearchSeconds=0):
         raise WrongPasswordError
-    # TODO: Check for no user error.
-    # TODO: Check for no password error.
-    # TODO: Check for unregistered user error.
-    # TODO: Check for too long user error.
+    """ Check for the following errors:
+    - No username.
+    - No password.
+    - Unregistered username.
+    - Username too long.
+    """
     raise LoginException
