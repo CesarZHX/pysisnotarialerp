@@ -16,7 +16,7 @@ class ComboBox(BaseModel):
         """Initializes a new instance of the SelectInput class."""
         button: ButtonControl = combo_box.ButtonControl(searchDepth=1, Name="Abrir")
         list: ListControl = combo_box.ListControl(searchDepth=1, ClassName="ComboLBox")
-        return super().__init__(_combo_box=combo_box, _button=button, _list=list)
+        return super().__init__(combo_box=combo_box, button=button, list=list)
 
     @property
     def value(self) -> str:
