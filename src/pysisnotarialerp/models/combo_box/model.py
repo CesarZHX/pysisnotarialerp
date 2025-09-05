@@ -8,9 +8,9 @@ class ComboBox(BaseModel):
 
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
-    _combo_box: ComboBoxControl = Field(..., frozen=True)
-    _button: ButtonControl = Field(..., frozen=True)
-    _list: ListControl = Field(..., frozen=True)
+    combo_box: ComboBoxControl = Field(..., frozen=True)
+    button: ButtonControl = Field(..., frozen=True)
+    list: ListControl = Field(..., frozen=True)
 
     def __init__(self, combo_box: ComboBoxControl):
         """Initializes a new instance of the SelectInput class."""
@@ -21,7 +21,7 @@ class ComboBox(BaseModel):
     @property
     def value(self) -> str:
         """Returns the value."""
-        combo_box: ComboBoxControl = self._combo_box
+        combo_box: ComboBoxControl = self.combo_box
         type_combo_box = combo_box.GetValuePattern()
         return type_combo_box.Value
 
@@ -37,7 +37,7 @@ class ComboBox(BaseModel):
         if option not in options:
             raise OptionNotExistsError(option, options)
         self._collapse()
-        combo_box: ComboBoxControl = self._combo_box
+        combo_box: ComboBoxControl = self.combo_box
         assert combo_box.Select(option)
         new_value: str = self.value
         assert new_value == value
@@ -53,7 +53,7 @@ class ComboBox(BaseModel):
     @property
     def list_items(self) -> tuple[ListItemControl, ...]:
         """Return the list items."""
-        list: ListControl = self._list
+        list: ListControl = self.list
         self._expand()
         children = tuple(list.GetChildren())
         list_items: tuple[ListItemControl, ...]
@@ -75,12 +75,12 @@ class ComboBox(BaseModel):
 
     def _is_expanded(self) -> bool:
         """Return True if the combo box list is expanded, False otherwise."""
-        list: ListControl = self._list
+        list: ListControl = self.list
         return list.Exists(maxSearchSeconds=0)
 
     def _toggle(self) -> None:
         """Toggle the combo box between expanded and collapsed."""
-        button: ButtonControl = self._button
+        button: ButtonControl = self.button
         invoke_pattern = button.GetInvokePattern()
         assert invoke_pattern.Invoke()
         return None
