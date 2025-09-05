@@ -10,12 +10,14 @@ class BaseWindow:
 
     def __init__(self) -> None:
         """Initializes a new instance of the Window class."""
-        return self.wait()
+        self.wait_for()
+        assert self._window.SetTopmost()
+        return None
 
     @classmethod
-    def wait(cls) -> None:
+    def wait_for(cls) -> None:
         """Waits for the window to appear."""
-        cls._window.Exists()
+        assert cls._window.Exists()
         return None
 
     @classmethod

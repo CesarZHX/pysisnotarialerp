@@ -12,8 +12,8 @@ NUMBER_EDIT = _TOOL_STRIP.EditControl(searchDepth=1, Name="")
 
 _OPTIONS_GROUP = KARDEX_WINDOW.GroupControl(searchDepth=1, Name="Opciones")
 RECORD_BUTTON = _OPTIONS_GROUP.ButtonControl(searchDepth=1, AutomationId="btRegistro")
-PR_BUTTON = _OPTIONS_GROUP.ButtonControl(searchDepth=1, AutomationId="btRrpp")
-PUBLIC_RECORDS_BUTTON = PR_BUTTON
+_PR_BUTTON = _OPTIONS_GROUP.ButtonControl(searchDepth=1, AutomationId="btRrpp")
+PUBLIC_RECORDS_BUTTON = _PR_BUTTON
 
 _INFO_WINDOW = MAIN_WINDOW.WindowControl(searchDepth=1, Name="SIS NOTARIAL ERP")
 ACCEPT_BUTTON = _INFO_WINDOW.ButtonControl(searchDepth=1, Name="Aceptar")
