@@ -1,4 +1,4 @@
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 from uiautomation import ButtonControl, ComboBoxControl, ListControl, ListItemControl
 
 from .exceptions import NoOptionsError, OptionNotExistsError
@@ -6,11 +6,11 @@ from .exceptions import NoOptionsError, OptionNotExistsError
 
 class ComboBox(BaseModel):
 
-    model_config = ConfigDict(frozen=True, arbitrary_types_allowed=True)
+    model_config = ConfigDict(arbitrary_types_allowed=True)
 
-    _combo_box: ComboBoxControl
-    _button: ButtonControl
-    _list: ListControl
+    _combo_box: ComboBoxControl = Field(..., frozen=True)
+    _button: ButtonControl = Field(..., frozen=True)
+    _list: ListControl = Field(..., frozen=True)
 
     def __init__(self, combo_box: ComboBoxControl):
         """Initializes a new instance of the SelectInput class."""
