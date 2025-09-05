@@ -31,6 +31,14 @@ class BaseWindow:
         assert window_pattern.Close()
         return None
 
+    @classmethod
+    def set_active(cls) -> None:
+        """Sets the window to active."""
+        window = cls._window
+        if window.IsOffscreen:
+            assert window.SetActive()
+        return None
+
 
 class TopLevelWindow(BaseWindow):
     """Top level window class."""
@@ -39,13 +47,15 @@ class TopLevelWindow(BaseWindow):
     def set_topmost(cls) -> None:
         """Sets the window to topmost."""
         window = cls._window
-        assert window.SetTopmost()
+        if not window.IsTopmost():
+            assert window.SetTopmost()
         return None
 
     @classmethod
     def wait_for(cls) -> None:
-        """Waits for the window to appear and set to topmost."""
+        """Waits for the window to appear, set to active and set to topmost."""
         super().wait_for()
+        cls.set_active()
         return cls.set_topmost()
 
 
@@ -57,5 +67,5 @@ class MandatoryWindow(BaseWindow):
         return self.wait_for()
 
 
-class MandatoryTopLevelWindow(TopLevelWindow, MandatoryWindow):
+class MandatoryTopLevelWindow(MandatoryWindow, TopLevelWindow):
     """Mandatory top level window class."""
