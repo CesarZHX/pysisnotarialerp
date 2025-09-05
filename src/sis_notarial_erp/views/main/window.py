@@ -1,11 +1,11 @@
 """Main window module."""
 
-from ...base.window import MandatoryWindow
+from ...base.window import MandatoryTopLevelWindow
 from .controls import KARDEX_BUTTON, MAIN_WINDOW
 from .kardex.window import KardexWindow
 
 
-class MainWindow(MandatoryWindow):
+class MainWindow(MandatoryTopLevelWindow):
     """Main window class."""
 
     _window = MAIN_WINDOW

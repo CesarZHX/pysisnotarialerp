@@ -14,6 +14,16 @@ class BaseWindow:
         return cls._window.Exists(maxSearchSeconds=0)
 
     @classmethod
+    def wait_for(cls) -> None:
+        """Waits for the window to appear."""
+        assert cls._window.Exists()
+        return None
+
+
+class TopLevelWindow(BaseWindow):
+    """Top level window class."""
+
+    @classmethod
     def set_topmost(cls) -> None:
         """Sets the window to topmost."""
         assert cls._window.SetTopmost()
@@ -21,8 +31,8 @@ class BaseWindow:
 
     @classmethod
     def wait_for(cls) -> None:
-        """Waits for the window to appear."""
-        assert cls._window.Exists()
+        """Waits for the window to appear and set to topmost."""
+        super().wait_for()
         return cls.set_topmost()
 
 
@@ -30,5 +40,9 @@ class MandatoryWindow(BaseWindow):
     """Mandatory window class."""
 
     def __init__(self) -> None:
-        """Initializes a new instance of the MandatoryWindow class."""
+        """Initializes a new instance of the SubWindow class."""
         return self.wait_for()
+
+
+class MandatoryTopLevelWindow(TopLevelWindow, MandatoryWindow):
+    """Mandatory top level window class."""

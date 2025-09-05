@@ -5,13 +5,13 @@ from subprocess import Popen
 
 from pydantic import SecretStr
 
-from ...base.window import BaseWindow
+from ...base.window import TopLevelWindow
 from ..main.window import MainWindow
 from .controls import LOGIN_WINDOW, PASSWORD_EDIT, SUBMIT_BUTTON, USERNAME_EDIT
 from .exceptions import raise_login_error
 
 
-class LoginWindow(BaseWindow):
+class LoginWindow(TopLevelWindow):
     """Login window class.
     - This class is designed to manage **a single instance** of the application.
     - If multiple instances are running, it will always attach to and control **only the first one it finds**.
