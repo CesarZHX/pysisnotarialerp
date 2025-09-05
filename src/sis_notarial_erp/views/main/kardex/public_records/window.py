@@ -6,7 +6,7 @@ from datetime import time as Time
 from decimal import Decimal
 from time import sleep
 
-from .....base.window import BaseWindow
+from .....base.window import MandatoryWindow
 from .controls import (
     ASSOCIATED_ORDER_NUMBER_EDIT,
     DEADLINE_DATE_EDIT,
@@ -33,7 +33,7 @@ _DATE_FORMAT: str = "%d/%m/%Y"
 _TIME_FORMAT: str = "%H:%M"
 
 
-class PublicRecordsWindow(BaseWindow):
+class PublicRecordsWindow(MandatoryWindow):
     """Public Records window class."""
 
     _window = PUBLIC_RECORDS_WINDOW

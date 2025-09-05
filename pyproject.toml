@@ -1,6 +1,6 @@
 [project]
 name = "pysisnotarialerp"
-version = "0.4.6"
+version = "0.5.0"
 description = "A Python wrapper for the Sis Notarial ERP desktop application."
 authors = [
     {name = "CesarZHX", email = "112836949+CesarZHX@users.noreply.github.com"},
@@ -14,9 +14,9 @@ license = {text = "Apache-2.0"}
 requires = ["pdm-backend"]
 build-backend = "pdm.backend"
 
-
 [tool.pdm]
 distribution = true
+package-dir = "src"
 
 [dependency-groups]
 dev = [

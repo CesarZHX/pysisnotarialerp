@@ -2,7 +2,7 @@
 
 from time import sleep
 
-from ....base.window import BaseWindow
+from ....base.window import MandatoryWindow
 from ....models.kardex.number import KardexNumber
 from ....models.kardex.type import KardexType
 from .controls import (
@@ -18,7 +18,7 @@ from .exceptions import KardexNotExistsError
 from .public_records.window import PublicRecordsWindow
 
 
-class KardexWindow(BaseWindow):
+class KardexWindow(MandatoryWindow):
     """Kardex window class."""
 
     _window = KARDEX_WINDOW

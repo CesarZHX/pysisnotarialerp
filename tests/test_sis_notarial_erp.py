@@ -4,13 +4,13 @@ from datetime import date as Date
 from datetime import timedelta as Timedelta
 from random import choice
 
-from pysisnotarialerp import KARDEX_TYPES, KardexNumber, KardexType, SisNotarialERP
+from sis_notarial_erp import KARDEX_TYPES, KardexNumber, KardexType, LoginWindow
 
 
 def test_sis_notarial_erp(executable_file, username, password) -> None:
     """Tests the Sis Notarial ERP application."""
-    sis_notarial_erp: SisNotarialERP = SisNotarialERP(executable_file)
-    main_form = sis_notarial_erp.login(username, password)
+    login_window: LoginWindow = LoginWindow(executable_file)
+    main_form = login_window.login(username, password)
     kardex_form = main_form.get_kardex_window()
 
     old_kardex_type: KardexType = kardex_form.get_kardex_type()
