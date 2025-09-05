@@ -9,10 +9,13 @@ from .controls import (
     ACCEPT_BUTTON,
     KARDEX_NOT_EXIST_TEXT,
     KARDEX_WINDOW,
+    NEW_PUBLIC_RECORDS_TEXT,
     NUMBER_EDIT,
+    PUBLIC_RECORDS_BUTTON,
     TYPE_COMBO_BOX,
 )
 from .exceptions import KardexNotExistsError
+from .public_records.window import PublicRecordsWindow
 
 
 class KardexWindow(BaseWindow):
@@ -56,7 +59,6 @@ class KardexWindow(BaseWindow):
             return None
         str_kardex_number: str = str(value.root)
         number_edit = NUMBER_EDIT.GetValuePattern()
-
         assert number_edit.SetValue(str_kardex_number)
         assert (new_kardex_number := cls.get_kardex_number())
         assert new_kardex_number == value
@@ -82,3 +84,18 @@ class KardexWindow(BaseWindow):
         mechanism to ensure reliability.
         """
         return sleep(2)
+
+    @classmethod
+    def get_public_records_window(cls) -> PublicRecordsWindow:
+        """Returns the public records window."""
+        if not NEW_PUBLIC_RECORDS_TEXT.Exists(maxSearchSeconds=0):
+            PUBLIC_RECORDS_BUTTON.GetInvokePattern().Invoke()
+            cls._wait_for_update()
+        if not PublicRecordsWindow.exists():
+            NEW_PUBLIC_RECORDS_TEXT.Click()
+        return PublicRecordsWindow()
+
+    @classmethod
+    def get_record_window(cls) -> PublicRecordsWindow:
+        """Returns the record window."""
+        raise NotImplementedError

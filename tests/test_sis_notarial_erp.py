@@ -1,19 +1,10 @@
 """Tests for Sis Notarial ERP application."""
 
 from datetime import date as Date
-from datetime import datetime as Datetime
 from datetime import timedelta as Timedelta
 from random import choice
 
-from pysisnotarialerp import (
-    DATE_PANE,
-    KARDEX_TYPES,
-    NEW_TEXT,
-    PUBLIC_RECORDS_WINDOW,
-    KardexNumber,
-    KardexType,
-    SisNotarialERP,
-)
+from pysisnotarialerp import KARDEX_TYPES, KardexNumber, KardexType, SisNotarialERP
 
 
 def test_sis_notarial_erp(executable_file, username, password) -> None:
@@ -35,21 +26,11 @@ def test_sis_notarial_erp(executable_file, username, password) -> None:
     assert (new_kardex_number := kardex_form.get_kardex_number())
     assert new_kardex_number == kardex_number
 
-    if not PUBLIC_RECORDS_WINDOW.Exists(maxSearchSeconds=0):
-        NEW_TEXT.Click()
+    public_records_window = kardex_form.get_public_records_window()
 
     today = Date.today()
     yerterday = Date.today() - Timedelta(days=1)
     date = choice((today, yerterday))
-    date_format = "%d/%m/%Y"
-    str_date = date.strftime(date_format)
-    stripped_date = str_date.lstrip("0")
-    str_current_date = DATE_PANE.Name
-    current_date = Datetime.strptime(str_current_date, date_format).date()
-    if date != current_date:
-        DATE_PANE.SendKeys(stripped_date)
-    str_new_date = DATE_PANE.Name
-    new_date = Datetime.strptime(str_new_date, date_format).date()
-    assert date == new_date
+    public_records_window.set_document_date(date)
 
     return None
