@@ -24,6 +24,8 @@ class BaseWindow:
     @classmethod
     def close(cls) -> None:
         """Closes the window."""
+        if not cls.exists():
+            return None
         window = cls._window
         window_pattern = window.GetWindowPattern()
         assert window_pattern.Close()

@@ -23,6 +23,11 @@ class KardexWindow(MandatoryWindow):
 
     _window = KARDEX_WINDOW
 
+    def __init__(self) -> None:
+        """Initializes a new instance of the KardexWindow class."""
+        super().__init__()
+        return self.close_subwindows()
+
     @staticmethod
     def get_kardex_types() -> tuple[KardexType, ...]:
         """Returns the kardex types."""
@@ -99,3 +104,10 @@ class KardexWindow(MandatoryWindow):
     def get_record_window(cls) -> PublicRecordsWindow:
         """Returns the record window."""
         raise NotImplementedError
+
+    @classmethod
+    def close_subwindows(cls) -> None:
+        """Closes the subwindows."""
+        for subwindow in (PublicRecordsWindow,):
+            subwindow.close()
+        return None
