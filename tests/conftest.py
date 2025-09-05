@@ -17,9 +17,9 @@ def executable_file() -> Path:
 
 @fixture(scope="session")
 def username() -> str:
-    return environ["SIS_NOTARIAL_ERP_EXECUTABLE_USERNAME"]
+    return environ["SIS_NOTARIAL_ERP_USERNAME"]
 
 
 @fixture(scope="session")
 def password() -> SecretStr:
-    return SecretStr(environ["SIS_NOTARIAL_ERP_EXECUTABLE_USERNAME"])
+    return SecretStr(environ["SIS_NOTARIAL_ERP_PASSWORD"])
