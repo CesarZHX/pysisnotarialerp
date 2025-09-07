@@ -22,7 +22,7 @@ class Dialog(BaseModel):
         return super().__init__(
             parent_window=parent_window,
             window=dw,
-            text=dw.TextControl(searchDepth=1, ClassName="Static"),
+            text_control=dw.TextControl(searchDepth=1, ClassName="Static"),
             accept_button=dw.ButtonControl(searchDepth=1, Name="Aceptar"),
         )
 
