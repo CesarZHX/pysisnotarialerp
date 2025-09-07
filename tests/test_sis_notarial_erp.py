@@ -8,7 +8,7 @@ from sis_notarial_erp import KARDEX_TYPES, KardexNumber, KardexType, LoginWindow
 
 
 def test_create_kardex(executable_file, username, password) -> None:
-    """Tests the Sis Notarial ERP application."""
+    """Tests the kardex creation application."""
     login_window: LoginWindow = LoginWindow(executable_file)
     main_window = login_window.login(username, password)
     kardex_window = main_window.get_kardex_window()
