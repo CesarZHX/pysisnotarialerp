@@ -15,6 +15,7 @@ from .controls import (
     TYPE_COMBO_BOX,
 )
 from .exceptions import KardexNotExistsError
+from .public_records.controls import DIALOG
 from .public_records.window import PublicRecordsWindow
 
 
@@ -110,4 +111,5 @@ class KardexWindow(MandatoryWindow):
         """Closes the subwindows."""
         for subwindow in (PublicRecordsWindow,):
             subwindow.close()
+        DIALOG.close()
         return None

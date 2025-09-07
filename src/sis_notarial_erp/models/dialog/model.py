@@ -30,7 +30,7 @@ class Dialog(BaseModel):
         """Returns the value. This immediately closes the dialog."""
         text_control: TextControl = self.text_control
         text: str = text_control.Name
-        self._close()
+        self.close()
         return text
 
     def exists(self) -> bool:
@@ -45,7 +45,7 @@ class Dialog(BaseModel):
             raise UnexpectedDialogMessageError(dialog_message)
         return None
 
-    def _close(self) -> None:
+    def close(self) -> None:
         """Closes the dialog."""
         accept_button: ButtonControl = self.accept_button
         if accept_button.Exists(maxSearchSeconds=0):
