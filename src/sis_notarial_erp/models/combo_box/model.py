@@ -13,7 +13,7 @@ class ComboBox(BaseModel):
     list: ListControl = Field(..., frozen=True)
 
     def __init__(self, combo_box: ComboBoxControl):
-        """Initializes a new instance of the SelectInput class."""
+        """Initializes a new instance of the ComboBox class."""
         button: ButtonControl = combo_box.ButtonControl(searchDepth=1, Name="Abrir")
         list: ListControl = combo_box.ListControl(searchDepth=1, ClassName="ComboLBox")
         return super().__init__(combo_box=combo_box, button=button, list=list)
