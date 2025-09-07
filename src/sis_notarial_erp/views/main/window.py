@@ -36,5 +36,6 @@ class MainWindow(MandatoryTopLevelWindow):
     def unset_topmost(cls) -> None:
         """Unsets the topmost attribute of the main window."""
         window = cls._window
-        assert window.SetTopmost(False)
+        if window.IsTopmost():
+            assert window.SetTopmost(False)
         return None
