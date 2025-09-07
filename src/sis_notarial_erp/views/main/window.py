@@ -10,6 +10,19 @@ class MainWindow(MandatoryTopLevelWindow):
 
     _window = MAIN_WINDOW
 
+    def __init__(self) -> None:
+        """Initializes a new instance of the MainWindow class."""
+        super().__init__()
+        return self.maximize()
+
+    @classmethod
+    def maximize(cls) -> None:
+        """Maximizes the main window."""
+        window = cls._window
+        if not window.IsMaximize():
+            assert window.Maximize()
+        return None
+
     @staticmethod
     def get_kardex_window() -> KardexWindow:
         """Returns the kardex form."""
