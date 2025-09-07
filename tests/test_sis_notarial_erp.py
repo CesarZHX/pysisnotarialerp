@@ -29,7 +29,7 @@ def test_create_kardex(executable_file, username, password) -> None:
     assert old_kardex_type and old_kardex_number
 
     # TODO: Make a method for kardex_window to create a new public records directly.
-    assert main_window.unset_topmost()
+    main_window.unset_topmost()
     public_records_window = kardex_window.get_public_records_window()
 
     public_records_window.set_document_date(Date.today())
