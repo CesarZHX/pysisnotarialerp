@@ -1,16 +1,15 @@
 """Tests for Sis Notarial ERP application."""
 
 from datetime import date as Date
-from datetime import timedelta as Timedelta
+from decimal import Decimal
 from random import choice
 
 from sis_notarial_erp import KARDEX_TYPES, KardexNumber, KardexType, LoginWindow
 
 
-def test_sis_notarial_erp(executable_file, username, password) -> None:
+def test_create_kardex(executable_file, username, password) -> None:
     """Tests the Sis Notarial ERP application."""
     login_window: LoginWindow = LoginWindow(executable_file)
-    # TODO: Wait up to 2 simultaneuos error in login (data too long is the one expected to be the first of two errors), the rest, wait just for one.
     main_window = login_window.login(username, password)
     kardex_window = main_window.get_kardex_window()
 
@@ -27,11 +26,22 @@ def test_sis_notarial_erp(executable_file, username, password) -> None:
     assert (new_kardex_number := kardex_window.get_kardex_number())
     assert new_kardex_number == kardex_number
 
+    assert old_kardex_type and old_kardex_number
+
+    # TODO: Make a method for kardex_window to create a new public records directly.
+    assert main_window.unset_topmost()
     public_records_window = kardex_window.get_public_records_window()
 
-    today = Date.today()
-    yerterday = Date.today() - Timedelta(days=1)
-    date = choice((today, yerterday))
-    public_records_window.set_document_date(date)
+    public_records_window.set_document_date(Date.today())
+    public_records_window.set_registry_status("PRESENTADO EN LINEA")
+    public_records_window.set_registry_office("LIMA")
+    public_records_window.set_registry_area("PERSONAS JURIDICAS")
+    public_records_window.set_title_number(100000)
+    public_records_window.set_payment_status("PAGADO EN LINEA")
+    public_records_window.set_total(Decimal("100.00"))
+    public_records_window.set_associated_order_number(1010)
+
+    public_records_window.save()  # NOTE or close to do not create the record.
+    # NOTE: If you created the record, you can delete delete it later.
 
     return None
