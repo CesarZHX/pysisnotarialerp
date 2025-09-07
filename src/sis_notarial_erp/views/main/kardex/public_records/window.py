@@ -10,6 +10,7 @@ from .....base.window import MandatoryTopLevelWindow
 from .controls import (
     ASSOCIATED_ORDER_NUMBER_EDIT,
     DEADLINE_DATE_EDIT,
+    DIALOG,
     DOCUMENT_DATE_PANE,
     DOCUMENT_TIME_EDIT,
     PAYMENT_METHOD_CARD_RADIO_BUTTON,
@@ -27,7 +28,6 @@ from .controls import (
     TIVE_EDIT,
     TOTAL_EDIT,
 )
-from .exceptions import raise_public_records_error
 
 _DATE_FORMAT: str = "%d/%m/%Y"
 _TIME_FORMAT: str = "%H:%M"
@@ -295,10 +295,10 @@ class PublicRecordsWindow(MandatoryTopLevelWindow):
         """Saves the public record."""
         save_button = SAVE_BUTTON.GetInvokePattern()
         assert save_button.Invoke()
-        cls._wait_for_update()
-        if cls.exists():
-            raise_public_records_error()
-        return None
+        success_message: str = "Se registró correctamente."
+        DIALOG.expect_message(success_message)
+        assert not cls.exists()
+        return cls._wait_for_update()
 
     @staticmethod
     def _wait_for_update() -> None:

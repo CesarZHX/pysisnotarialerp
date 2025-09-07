@@ -1,6 +1,7 @@
 """Public records controls."""
 
 from .....models.combo_box.model import ComboBox
+from .....models.dialog.model import Dialog
 from ....main.kardex.controls import MAIN_WINDOW
 
 _PR_WINDOW = MAIN_WINDOW.WindowControl(searchDepth=1, AutomationId="FrmRRPP")
@@ -33,3 +34,5 @@ _PM_CASH_RADIO = _PR_WINDOW.RadioButtonControl(searchDepth=1, AutomationId="rbEf
 PAYMENT_METHOD_CASH_RADIO_BUTTON = _PM_CASH_RADIO  # NOTE: Select Pattern > Select
 _PM_CARD_RADIO = _PR_WINDOW.RadioButtonControl(searchDepth=1, AutomationId="rbTarjeta")
 PAYMENT_METHOD_CARD_RADIO_BUTTON = _PM_CARD_RADIO  # NOTE: Select Pattern > Select
+
+DIALOG: Dialog = Dialog(PUBLIC_RECORDS_WINDOW)
