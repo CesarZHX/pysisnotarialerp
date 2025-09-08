@@ -293,8 +293,7 @@ class PublicRecordsWindow(MandatoryTopLevelWindow):
     @classmethod
     def save(cls) -> None:
         """Saves the public record."""
-        save_button = SAVE_BUTTON.GetInvokePattern()
-        assert save_button.Invoke()
+        SAVE_BUTTON.Click()  # NOTE: Invoke does the click, but gives COMError
         success_message: str = "Se registró correctamente."
         DIALOG.expect_message(success_message)
         assert not cls.exists()
