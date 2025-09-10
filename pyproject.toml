@@ -1,11 +1,11 @@
 [project]
 name = "pysisnotarialerp"
-version = "0.8.7"
+version = "0.8.8"
 description = "A Python wrapper for the Sis Notarial ERP desktop application."
 authors = [
     {name = "CesarZHX", email = "112836949+CesarZHX@users.noreply.github.com"},
 ]
-dependencies = ["uiautomation>=2.0.29", "pydantic>=2.11.7"]
+dependencies = ["uiautomation==2.0.29", "pydantic==2.11.7"]
 requires-python = ">=3.13"
 readme = "README.md"
 license = {text = "Apache-2.0"}
@@ -20,6 +20,6 @@ package-dir = "src"
 
 [dependency-groups]
 dev = [
-    "pytest>=8.4.1",
-    "python-dotenv>=1.1.1",
+    "pytest==8.4.2",
+    "python-dotenv==1.1.1",
 ]
