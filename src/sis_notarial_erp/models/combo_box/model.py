@@ -1,5 +1,11 @@
 from pydantic import BaseModel, ConfigDict, Field
-from uiautomation import ButtonControl, ComboBoxControl, ListControl, ListItemControl
+from uiautomation import (
+    ButtonControl,
+    ComboBoxControl,
+    ListControl,
+    ListItemControl,
+    ScrollBarControl,
+)
 
 from .exceptions import NoOptionsError, OptionNotExistsError
 
@@ -58,7 +64,8 @@ class ComboBox(BaseModel):
         children = tuple(list.GetChildren())
         list_items: tuple[ListItemControl, ...]
         list_items = tuple(c for c in children if isinstance(c, ListItemControl))
-        assert len(children) == len(list_items)
+        scroll_bars = tuple(c for c in children if isinstance(c, ScrollBarControl))
+        assert len(children) == len(list_items) + len(scroll_bars)
         return list_items
 
     def _expand(self) -> None:
