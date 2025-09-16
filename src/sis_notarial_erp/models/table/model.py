@@ -1,7 +1,5 @@
 """Table model module."""
 
-from datetime import date as Date
-from datetime import datetime as Datetime
 from re import Pattern, compile
 
 from uiautomation import (
@@ -13,7 +11,6 @@ from uiautomation import (
     TableControl,
 )
 
-from ...constants import DATE_FORMAT
 from .constants import Alignment
 
 
@@ -35,17 +32,17 @@ class Table:
         )
         return None
 
-    def read(self) -> tuple[dict[str, DataItemControl | Date | str | None], ...]:
+    def read(self) -> tuple[dict[str, DataItemControl | str | None], ...]:
         """Return the table data."""
         return tuple(dict(zip(self._get_headers(), row)) for row in self._get_data())
 
-    def _get_data(self) -> tuple[tuple[DataItemControl | Date | str | None, ...], ...]:
+    def _get_data(self) -> tuple[tuple[DataItemControl | str | None, ...], ...]:
         """Return all table data as tuples of parsed row values."""
         return tuple(self._get_data_row_values(row) for row in self._get_data_rows())
 
     def _get_data_row_values(
         self, row: CustomControl
-    ) -> tuple[DataItemControl | Date | str | None, ...]:
+    ) -> tuple[DataItemControl | str | None, ...]:
         """Return the row values."""
         cells: tuple[DataItemControl, ...] = self._get_data_cells(row)
         return tuple(self._get_data_cell_value(cell) for cell in cells)
@@ -59,11 +56,10 @@ class Table:
 
     def _get_data_cell_value(
         self, cell: DataItemControl
-    ) -> DataItemControl | Date | str | None:
+    ) -> DataItemControl | str | None:
         """Return the cell value.
         - Returns ``None`` if the cell is empty.
         - Returns a ``DataItemControl`` if the cell contains a clickable control.
-        - Returns a ``Date`` if the cell contains a date.
         - Returns a ``str`` otherwise.
         """
         value: str = cell.GetValuePattern().Value
@@ -71,10 +67,7 @@ class Table:
             return None
         elif value == "System.Drawing.Bitmap":
             return cell
-        try:
-            return Datetime.strptime(value, DATE_FORMAT).date()
-        except ValueError:
-            return value
+        return value
 
     def _get_data_cells(self, data_row: CustomControl) -> tuple[DataItemControl, ...]:
         """Return the data cell controls."""

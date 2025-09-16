@@ -10,6 +10,7 @@ from sis_notarial_erp import (
     KardexNumber,
     KardexType,
     LoginWindow,
+    PublicRecord,
 )
 
 
@@ -32,12 +33,13 @@ def test_create_kardex(executable_file, username, password) -> None:
     assert (new_kardex_number := kardex_window.get_kardex_number())
     assert new_kardex_number == kardex_number
 
+    kardex_window.go_to_public_records_panel()
+    table = PUBLIC_RECORDS_TABLE.read()
+    records = tuple(PublicRecord.from_table(row) for row in table)
+    dumped_records = tuple(record.model_dump() for record in records)
+
     # TODO: Make a method for kardex_window to create a new public records directly.
     main_window.unset_topmost()
-
-    kardex_window.go_to_public_records_panel()
-    assert (rows := PUBLIC_RECORDS_TABLE.read())
-
     public_records_window = kardex_window.get_public_records_window()
 
     public_records_window.set_document_date(Date.today())
