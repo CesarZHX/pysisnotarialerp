@@ -18,9 +18,8 @@ class Table:
     """Table model class."""
 
     _row_pattern: Pattern = compile(r"^Fila (0|[1-9]\d*)$")
-    _max_visible_rows: int = 7
-
-    _horizontal_scroll: ScrollBarControl
+    _horizontal_scroll: ScrollBarControl  # NOTE: Only exists when too many cols.
+    _vertical_scroll: ScrollBarControl  # NOTE: Only exists when too many rows.
 
     def __init__(self, table_control: TableControl) -> None:
         if not isinstance(table_control, TableControl):
@@ -31,7 +30,6 @@ class Table:
         self._header_row: CustomControl = table_control.CustomControl(
             searchDepth=1, Name="Fila superior"
         )
-        assert self._max_visible_rows >= 0
         return None
 
     def read(self) -> tuple[dict[str, DataItemControl], ...]:
@@ -69,7 +67,9 @@ class Table:
         """Return the row controls."""
         children: tuple[Control, ...] = self._get_children()
         custom = tuple(c for c in children if isinstance(c, CustomControl))
-        assert len(children) == len(custom) + len(self._get_scroll_bars())
+        scrolls = tuple(c for c in children if isinstance(c, ScrollBarControl))
+        assert 0 < len(scrolls) < 3
+        assert len(children) == len(custom) + len(scrolls)
         return custom
 
     def _get_children(self) -> tuple[Control, ...]:
@@ -77,24 +77,7 @@ class Table:
         table_control: TableControl = self._table_control
         return tuple(table_control.GetChildren())
 
-    def _get_scroll_bars(self) -> tuple[ScrollBarControl, ...]:
-        """Return the scroll bar controls."""
-        scroll_var_controls: list[ScrollBarControl] = [self._horizontal_scroll]
-        if vertical_scroll_bar := self._get_vertical_scroll_bar():
-            scroll_var_controls.append(vertical_scroll_bar)
-        return tuple(scroll_var_controls)
-
     def _get_scroll_bar(self, alignment: Alignment) -> ScrollBarControl:
         """Return the scroll bar control."""
         name: str = f"Barra de desplazamiento {alignment}"
         return self._table_control.ScrollBarControl(searchDepth=1, Name=name)
-
-    def _has_vertical_scroll_bar(self) -> bool:
-        """Return True if the table should have a vertical scroll bar, False otherwise."""
-        return len(self._get_data_rows()) > self._max_visible_rows
-
-    def _get_vertical_scroll_bar(self) -> ScrollBarControl | None:
-        """Return the vertical scroll bar control if it should exist, None otherwise."""
-        if not self._has_vertical_scroll_bar():
-            return None
-        return self._get_scroll_bar(Alignment.VERTICAL)
