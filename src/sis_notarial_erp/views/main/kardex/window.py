@@ -92,11 +92,17 @@ class KardexWindow(MandatoryWindow):
         return sleep(2)
 
     @classmethod
+    def go_to_public_records_panel(cls) -> None:
+        if NEW_PUBLIC_RECORDS_TEXT.Exists(maxSearchSeconds=0):
+            return None
+        public_records_button = PUBLIC_RECORDS_BUTTON.GetInvokePattern()
+        public_records_button.Invoke()
+        return cls._wait_for_update()
+
+    @classmethod
     def get_public_records_window(cls) -> PublicRecordsWindow:
         """Returns the public records window."""
-        if not NEW_PUBLIC_RECORDS_TEXT.Exists(maxSearchSeconds=0):
-            PUBLIC_RECORDS_BUTTON.GetInvokePattern().Invoke()
-            cls._wait_for_update()
+        cls.go_to_public_records_panel()
         if not PublicRecordsWindow.exists():
             NEW_PUBLIC_RECORDS_TEXT.Click()
         return PublicRecordsWindow()

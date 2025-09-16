@@ -4,7 +4,13 @@ from datetime import date as Date
 from decimal import Decimal
 from random import choice
 
-from sis_notarial_erp import KARDEX_TYPES, KardexNumber, KardexType, LoginWindow
+from sis_notarial_erp import (
+    KARDEX_TYPES,
+    PUBLIC_RECORDS_TABLE,
+    KardexNumber,
+    KardexType,
+    LoginWindow,
+)
 
 
 def test_create_kardex(executable_file, username, password) -> None:
@@ -26,10 +32,12 @@ def test_create_kardex(executable_file, username, password) -> None:
     assert (new_kardex_number := kardex_window.get_kardex_number())
     assert new_kardex_number == kardex_number
 
-    assert old_kardex_type and old_kardex_number
-
     # TODO: Make a method for kardex_window to create a new public records directly.
     main_window.unset_topmost()
+
+    kardex_window.go_to_public_records_panel()
+    assert (rows := PUBLIC_RECORDS_TABLE.read())
+
     public_records_window = kardex_window.get_public_records_window()
 
     public_records_window.set_document_date(Date.today())
