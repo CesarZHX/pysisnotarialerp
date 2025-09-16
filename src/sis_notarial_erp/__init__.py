@@ -5,14 +5,16 @@ from sis_notarial_erp.models.kardex.number import KardexNumber
 from sis_notarial_erp.models.kardex.type import KARDEX_TYPES, KardexType
 from sis_notarial_erp.views.login.exceptions import LoginException
 from sis_notarial_erp.views.login.window import LoginWindow
+from sis_notarial_erp.views.main.kardex.controls import PUBLIC_RECORDS_TABLE
 
 Logger.SetLogFile("")
 
 __all__ = (
     "SisNotarialErpException",
+    "PUBLIC_RECORDS_TABLE",
     "LoginException",
-    "LoginWindow",
     "KardexNumber",
     "KARDEX_TYPES",
+    "LoginWindow",
     "KardexType",
 )

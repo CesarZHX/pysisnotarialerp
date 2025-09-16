@@ -1,6 +1,7 @@
 """Kardex controls."""
 
 from ....models.combo_box.model import ComboBox
+from ....models.table.model import Table
 from ...main.controls import _MAIN_PANE, MAIN_WINDOW
 
 KARDEX_WINDOW = _MAIN_PANE.WindowControl(searchDepth=1, AutomationId="FrmKardex")
@@ -28,3 +29,6 @@ PUBLIC_RECORDS_PANE = _PR_PANE
 
 _NEW_PR_TEXT = _PR_PANE.TextControl(searchDepth=1, AutomationId="lbNuevoRp")
 NEW_PUBLIC_RECORDS_TEXT = _NEW_PR_TEXT
+
+_PR_TABLE = _PR_PANE.TableControl(searchDepth=1, AutomationId="dgRegistros")
+PUBLIC_RECORDS_TABLE: Table = Table(_PR_TABLE)
