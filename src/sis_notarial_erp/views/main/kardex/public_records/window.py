@@ -7,6 +7,7 @@ from decimal import Decimal
 from time import sleep
 
 from .....base.window import MandatoryTopLevelWindow
+from .....constants import DATE_FORMAT
 from .controls import (
     ASSOCIATED_ORDER_NUMBER_EDIT,
     DEADLINE_DATE_EDIT,
@@ -29,7 +30,6 @@ from .controls import (
     TOTAL_EDIT,
 )
 
-_DATE_FORMAT: str = "%d/%m/%Y"
 _TIME_FORMAT: str = "%H:%M"
 
 
@@ -42,7 +42,7 @@ class PublicRecordsWindow(MandatoryTopLevelWindow):
     def get_document_date() -> Date:
         """Returns the document date as a Date."""
         str_date: str = DOCUMENT_DATE_PANE.Name
-        datetime: Datetime = Datetime.strptime(str_date, _DATE_FORMAT)
+        datetime: Datetime = Datetime.strptime(str_date, DATE_FORMAT)
         return datetime.date()
 
     @classmethod
@@ -53,7 +53,7 @@ class PublicRecordsWindow(MandatoryTopLevelWindow):
         current_document_date: Date = cls.get_document_date()
         if current_document_date == value:
             return None
-        str_date: str = value.strftime(_DATE_FORMAT)
+        str_date: str = value.strftime(DATE_FORMAT)
         stripped_date: str = str_date.lstrip("0")
         DOCUMENT_DATE_PANE.SendKeys(stripped_date)
         new_document_date: Date = cls.get_document_date()
@@ -203,14 +203,14 @@ class PublicRecordsWindow(MandatoryTopLevelWindow):
         """Returns the deadline date."""
         deadline_date_edit = DEADLINE_DATE_EDIT.GetValuePattern()
         str_value: str = deadline_date_edit.Value
-        datetime: Datetime = Datetime.strptime(str_value, _DATE_FORMAT)
+        datetime: Datetime = Datetime.strptime(str_value, DATE_FORMAT)
         return datetime.date()
 
     @staticmethod
     def set_deadline_date(value: Date) -> None:
         """Sets the deadline date."""
         deadline_date_edit = DEADLINE_DATE_EDIT.GetValuePattern()
-        str_value: str = value.strftime(_DATE_FORMAT)
+        str_value: str = value.strftime(DATE_FORMAT)
         assert deadline_date_edit.SetValue(str_value)
         new_value: Date = PublicRecordsWindow.get_deadline_date()
         assert new_value == value
