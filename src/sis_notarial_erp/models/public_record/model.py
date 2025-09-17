@@ -46,7 +46,7 @@ class PublicRecord(BaseModel):
         return cls(
             title=int(data["Titulo"]),
             date=Datetime.strptime(data["Fecha"], DATE_FORMAT).date(),
-            status=RegistryStatus(data["Estatus"]),
+            status=RegistryStatus(data["Estado"]),
             download_type=data["Tipo de Descarga"],
             amount=Decimal(data["Monto"]),
             registry_entry=partida if partida is None else int(partida),
