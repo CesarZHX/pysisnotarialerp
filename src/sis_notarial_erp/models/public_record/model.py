@@ -37,10 +37,9 @@ class PublicRecord(BaseModel):
     @field_validator("title")
     def validate_title(cls, value: str) -> str:
         """PositiveInt or yyyy-PositiveInt"""
-        year, number = value.split("-", 1)
-        for number in (year, number):
-            if int(number) < 1:
-                raise ValueError("Value must be a positive integer.")
+        parts = map(int, value.split("-", 1))
+        if any(number < 1 for number in parts):
+            raise ValueError("Value parts must be positive integers.")
         return value
 
     @field_validator("registry_entry")
