@@ -5,7 +5,7 @@ from datetime import datetime as Datetime
 from decimal import Decimal
 from typing import Any
 
-from pydantic import BaseModel, ConfigDict, Field, PositiveInt
+from pydantic import BaseModel, ConfigDict, Field, PositiveInt, field_validator
 from uiautomation import DataItemControl
 
 from ...constants import DATE_FORMAT
@@ -17,12 +17,12 @@ class PublicRecord(BaseModel):
 
     model_config = ConfigDict(arbitrary_types_allowed=True, frozen=True)
 
-    title: str = Field(default="1")  # NOTE PositiveInt or yyyy-PositiveInt
+    title: str = Field(default="1")
     date: Date = Field(default_factory=Date.today)
     status: RegistryStatus
     download_type: str  # TODO: Replace with StrEnum when the source this is available
     amount: Decimal = Field(default=Decimal("0"), ge=0)
-    registry_entry: PositiveInt | None = Field(default=None)
+    registry_entry: str | None = Field(default=None)
     submitter: str
     registry_office: RegistryOffice
     registry_area: RegistryArea
@@ -33,6 +33,24 @@ class PublicRecord(BaseModel):
     delete_button: DataItemControl
     return_button: DataItemControl
     discharge_date: Date = Field(default_factory=Date.today)
+
+    @field_validator("title")
+    def validate_title(cls, value: str) -> str:
+        """PositiveInt or yyyy-PositiveInt"""
+        year, number = value.split("-", 1)
+        for number in (year, number):
+            if int(number) < 1:
+                raise ValueError("Value must be a positive integer.")
+        return value
+
+    @field_validator("registry_entry")
+    def validate_registry_entry(cls, value: str | None) -> str | None:
+        """registry_entry is an alfanumeric string like P12345678."""
+        if value is None:
+            return value
+        if not value.isalnum():
+            raise ValueError("Value must be an alphanumeric string.")
+        return value
 
     @property
     def title_number(self) -> PositiveInt:
@@ -53,7 +71,7 @@ class PublicRecord(BaseModel):
             status=RegistryStatus(data["Estado"]),
             download_type=data["Tipo de Descarga"],
             amount=Decimal(data["Monto"]),
-            registry_entry=partida if partida is None else int(partida),
+            registry_entry=partida,
             submitter=data["Presentante"],
             registry_office=RegistryOffice(data["Oficina Reg."]),
             registry_area=RegistryArea(data["Area Registral"]),
