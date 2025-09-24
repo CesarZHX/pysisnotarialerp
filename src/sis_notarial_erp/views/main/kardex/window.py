@@ -47,21 +47,24 @@ class KardexWindow(MandatoryWindow):
         TYPE_COMBO_BOX.value = value.root
         return cls._wait_for_update()
 
-    @staticmethod
-    def get_kardex_number() -> KardexNumber | None:
+    @classmethod
+    def get_kardex_number(cls) -> KardexNumber:
         """Returns the kardex number if it exists."""
         number_edit = NUMBER_EDIT.GetValuePattern()
         if number_edit_value := number_edit.Value:
             return KardexNumber(number_edit_value)
-        return None
+        NUMBER_EDIT.SendKeys("{ENTER}")
+        cls._wait_for_update()
+        if KARDEX_NOT_EXIST_TEXT.Exists(maxSearchSeconds=0):
+            ACCEPT_BUTTON.GetInvokePattern().Invoke()
+        return cls.get_kardex_number()
 
     @classmethod
     def set_kardex_number(cls, value: KardexNumber) -> None:
         """Sets the kardex number."""
         if not isinstance(value, KardexNumber):
             raise ValueError("Kardex number must be an instance of KardexNumber.")
-        current_kardex_number: KardexNumber | None = cls.get_kardex_number()
-        if current_kardex_number and value == current_kardex_number:
+        if value == cls.get_kardex_number():
             return None
         str_kardex_number: str = str(value.root)
         number_edit = NUMBER_EDIT.GetValuePattern()

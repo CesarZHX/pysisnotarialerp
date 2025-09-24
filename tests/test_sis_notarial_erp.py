@@ -27,8 +27,7 @@ def test_create_kardex(executable_file, username, password) -> None:
     assert new_kardex_type == kardex_type
 
     assert (old_kardex_number := kardex_window.get_kardex_number())
-    assert (_kardex_number := kardex_window.get_kardex_number())
-    kardex_number: KardexNumber = KardexNumber(_kardex_number.root - 1)
+    kardex_number: KardexNumber = KardexNumber(old_kardex_number.root - 1)
     kardex_window.set_kardex_number(kardex_number)
     assert (new_kardex_number := kardex_window.get_kardex_number())
     assert new_kardex_number == kardex_number
