@@ -28,7 +28,7 @@ class PublicRecord(BaseModel):
     registry_area: RegistryArea
     seat: str | None
     deadline_date: Date | None = Field(default=None)
-    tive: None = Field(default=None)
+    tive: PositiveInt | None = Field(default=None)
     edit_button: DataItemControl
     delete_button: DataItemControl
     return_button: DataItemControl
@@ -64,6 +64,7 @@ class PublicRecord(BaseModel):
             deadline_date = Datetime.strptime(fecha_plazo, DATE_FORMAT).date()
         asiento = data["Asiento"]
         discharge_datetime = Datetime.strptime(data["Fecha de Descargo"], DATE_FORMAT)
+        tive = data["Tive"]
         return cls(
             title=str(data["Titulo"]),
             date=Datetime.strptime(data["Fecha"], DATE_FORMAT).date(),
@@ -76,7 +77,7 @@ class PublicRecord(BaseModel):
             registry_area=RegistryArea(data["Area Registral"]),
             seat=asiento if asiento is None else asiento,
             deadline_date=deadline_date,
-            tive=data["Tive"],
+            tive=tive if tive is None else int(tive),
             edit_button=data["Edit."],
             delete_button=data["Elim."],
             return_button=data["Dev"],
