@@ -53,7 +53,7 @@ class PublicRecord(BaseModel):
 
     @property
     def title_number(self) -> PositiveInt:
-        return int(self.title.split("-", 1)[1])
+        return int(self.title.split("-", 1)[-1])
 
     @classmethod
     def from_table(cls, data: dict[str, Any]) -> "PublicRecord":
