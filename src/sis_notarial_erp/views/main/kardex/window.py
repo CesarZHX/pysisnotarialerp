@@ -5,6 +5,7 @@ from time import sleep
 from ....base.window import MandatoryWindow
 from ....models.kardex.number import KardexNumber
 from ....models.kardex.type import KardexType
+from ..window import MainWindow
 from .controls import (
     ACCEPT_BUTTON,
     KARDEX_NOT_EXIST_TEXT,
@@ -108,6 +109,7 @@ class KardexWindow(MandatoryWindow):
         cls.go_to_public_records_panel()
         if not PublicRecordsWindow.exists():
             NEW_PUBLIC_RECORDS_TEXT.Click()
+        MainWindow.unset_topmost()
         return PublicRecordsWindow()
 
     @classmethod
