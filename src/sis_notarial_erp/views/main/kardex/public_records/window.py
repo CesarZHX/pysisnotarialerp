@@ -8,6 +8,7 @@ from time import sleep
 
 from .....base.window import MandatoryTopLevelWindow
 from .....constants import DATE_FORMAT
+from ...window import MainWindow
 from .controls import (
     ASSOCIATED_ORDER_NUMBER_EDIT,
     DEADLINE_DATE_EDIT,
@@ -297,7 +298,14 @@ class PublicRecordsWindow(MandatoryTopLevelWindow):
         success_message: str = "Se registró correctamente."
         DIALOG.expect_message(success_message)
         assert not cls.exists()
+        MainWindow.set_topmost()
         return cls._wait_for_update()
+
+    @classmethod
+    def close(cls) -> None:
+        """Closes the window and restores main window topmost."""
+        super().close()
+        return MainWindow.set_topmost()
 
     @staticmethod
     def _wait_for_update() -> None:
